@@ -1,0 +1,80 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{multirow}
+\usepackage{booktabs, multirow} % for borders and merged ranges
+\usepackage{soul}% for underlines
+\usepackage[table]{xcolor} % for cell colors
+\usepackage{changepage,threeparttable} % for wide tables
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{xcolor} % 引入颜色包
+\usepackage{blindtext}
+\usepackage{tabularx}
+\usepackage{natbib}
+\bibliographystyle{plainnat}
+
+
+\newcommand{\huan}[1]{\textcolor{red}{Huan: #1}}
+
+
+\title{Your Fine-tuned Language Model Can Be A Jailbreaker}
+\author{Zeyi Liao}
+\date{January 2024}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+\section{Experiments}
+\huan{testtest}
+\subsection{High ASR}
+\input{tables/ASR_table_llama2}
+\input{tables/ASR_table_vicuna}
+\subsection{Defense}
+\subsubsection{Low ppl}
+Figures in \href{https://docs.google.com/document/d/1uvpDLHIPFsrZBQyb86uZjaKjL7RhBJ187pzkmnuiK1M/edit#heading=h.8lk5okrbken9}{Meeting Notes}.
+\input{tables/Low_ppl_table_llama2}
+\input{tables/Low_ppl_table_vicuna}
+
+\subsubsection{Resilience to System message}
+\input{tables/system_msg_llama_table}
+\input{tables/system_msg_vicuna_table}
+\subsection{Transferability}
+\subsubsection{Transfer to Proprietary models}
+We will decide whether to add other baselines accordingly when we have results.
+\input{tables/Closed_source_table}
+
+
+\textcolor{orange}{Draft Takeaways:}
+\begin{itemize}
+
+\item Our prompter trained on data from four models together could achieve a relatively high ASR for ChatGPT but still could not attack well GPT4. I assume it might be because GPT4 has already built a strong prompt injection defense. Or GPT4's training data is largely different from ChatGPT, which means their "dark-holes" are different.
+
+\item Held-out test sets usually get better ASR than held-in tasks. I hypothesize that the prompter is over-optimized on these four models. Although four models could attain better generalization/transferability than optimizing on only one model, it's still unknown the exact difference between the actual training data for ChatGPT and these four models. So I would like to further do two more exps on \textcolor{blue}{1) prompter from Vicuna 7b and 13b in both settings. 2) repeat the prompter from vicuna7,13b guanaco7,13b on a different earlier step checkpoint.}
+
+\textcolor{purple}{Do we need the held-in and held-out sets? I want to remove the held-in setting for 1) it does not perform better than held-out sets as we expected and 2) In other literature like GCG, the normal setting is held-out setting. }
+
+
+\item Sampling does not increase that much except for the ChatGPT held-out test sets. Probably that's the upper bound of our prompter.
+
+\item Appending affirmative suffixes like "Sure here is" after the adversarial suffix tokens drastically improve the ASR. My hypothesis for this. 1) Adding the adversarial suffix from our prompter increases the probability of the harmful content being output, and that's why sampling more times could help the ASR, i.e. increase the probability of outputting harmful content. By adding extra affirmative responses could help further increase the probabilities. The reason why solely adding an affirmative response without the adversarial suffix could not jailbreak is that the harmful content is in the low mass region, so affirmative response doesn't help at all. However, with adversarial suffix, harmful contents lie in the high mass region, then affirmative response could help even further.
+\end{itemize}
+
+
+\subsubsection{Transfer to Open-Sourced models}
+Prompter from llama2-chat and vicuna to other models.
+\input{tables/Open_sourced_table}
+\subsection{Unified Prompter Tranferability}
+Prompter trained on training data from all including llama2chat,vicuna7b,13b,guanaco7b,13b    
+
+
+\input{tables/Unified_prompter_table}
+\bibliography{papers}
+\appendix
+\section{Experimental Details}
+\subsection{Validation Results}
+
+\input{tables/val_table}
+And need the figure to represent how we select the ckpt's steps according to validation results.
+\end{document}

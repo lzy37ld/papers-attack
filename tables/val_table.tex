@@ -1,0 +1,24 @@
+\begin{table}[H]\centering
+\caption{Validation Results}\label{tab: }
+\scriptsize
+\begin{tabular}{llrr}\toprule
+\multicolumn{2}{c}{\multirow{2}{*}{Experimental Setting}} &\multicolumn{2}{c}{Victim Models} \\
+\cmidrule{3-4}
+& &Llama2-7b-chat &Vicuna \\
+\midrule
+Sample Approaches &Decoding Approaches &ASR(\%) &ASR(\%) \\
+\midrule
+\multirow{3}{*}{Random} &Greedy &0 &0 \\
+&Top\_p &0 &0 \\
+&Top\_p + 50 &0 &0 \\
+\cmidrule{1-4}
+\multirow{3}{*}{Steps} &Greedy &0 &0 \\
+&Top\_p &0 &0 \\
+&Top\_p + 50 &0 &0 \\
+\cmidrule{1-4}
+\multirow{3}{*}{Loss\_100} &Greedy &0 &0 \\
+&Top\_p &0 &0 \\
+&Top\_p + 50 &0 &0 \\
+\bottomrule
+\end{tabular}
+\end{table}

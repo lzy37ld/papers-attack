@@ -1,0 +1,3 @@
+{"rule":"A_NNS","sentence":"^\\QPrompter trained on training data from all including llama2chat,vicuna7b,13b,guanaco7b,13b \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q This is a test Experimental Details.\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_US","sentence":"^\\QUnified Prompter Tranferability.\\E$"}
+{"rule":"EN_DIACRITICS_REPLACE","sentence":"^\\QPrompter from llama2-chat and vicuna to other models.\\E$"}
